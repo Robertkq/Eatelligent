@@ -22,11 +22,12 @@
 
 .navbar li {
   display: inline;
+
 }
 
 .navbar a,
 .navbar button {
-  color: white;
+  color: black;
   text-decoration: none;
   background: none;
   border: none;
