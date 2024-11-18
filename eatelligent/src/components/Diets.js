@@ -15,7 +15,7 @@ function Diets() {
 
     const handleCreateNewDiet = async () => {
         const apiKey = process.env.REACT_APP_OPENAI_API_KEY; 
-        const prompt = 'Create a new diet plan for a healthy lifestyle.';
+        const prompt = 'Create a new diet plan for a healthy lifestyle. No meat, generate 7 days worth of calories and nutrients, for losing weight. I like apples';
 
         try {
             const response = await axios.post(
@@ -23,7 +23,7 @@ function Diets() {
                 {
                     model: 'gpt-4o-mini', 
                     messages: [{ role: 'user', content: prompt }], 
-                    max_tokens: 100,
+                    max_tokens: 200,
                 },
                 {
                     headers: {
