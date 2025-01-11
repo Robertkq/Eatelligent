@@ -1,62 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import './signin.css';
+import axios from 'axios';
+import './SignIn.css';
 
-function SignIn() {
-    const [username, setUsername] = useState('');
+const SignIn = () => {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [message, setMessage] = useState('');
+    const [userId, setUserId] = useState(null);
+    const [name, setName] = useState('');
 
     useEffect(() => {
-        // Check if the user is logged in by checking local storage
-        const user = localStorage.getItem('user');
+        const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             setIsLoggedIn(true);
+            setUserId(user.id); // Ensure the correct field name is used
+            setName(user.name); // Ensure the correct field name is used
         }
     }, []);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setMessage('Sign in successful!');
-                localStorage.setItem('user', JSON.stringify(data.user));
-                setIsLoggedIn(true);
-            } else {
-                setMessage(`Error: ${data.message}`);
-            }
+            const response = await axios.post('http://localhost:5000/api/signin', { email, password });
+            const user = response.data;
+            localStorage.setItem('user', JSON.stringify(user));
+            setIsLoggedIn(true);
+            setUserId(user.id); // Ensure the correct field name is used
+            setName(user.name); // Ensure the correct field name is used
+            setMessage('Logged in successfully');
         } catch (error) {
-            setMessage('Error: Failed to fetch');
-            console.error('Error:', error);
+            setMessage('Failed to log in');
         }
     };
 
-    const handleLogout = async () => {
-        try {
-            const response = await fetch('http://localhost:5000/api/logout', {
-                method: 'POST',
-                credentials: 'include', // Include cookies in the request
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setMessage('Logout successful');
-                localStorage.removeItem('user');
-                setIsLoggedIn(false);
-            } else {
-                setMessage(`Error: ${data.message}`);
-            }
-        } catch (error) {
-            setMessage('Error: Failed to fetch');
-            console.error('Error:', error);
-        }
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        setIsLoggedIn(false);
+        setUserId(null);
+        setName('');
+        setMessage('Logged out successfully');
     };
 
     return (
@@ -64,17 +47,18 @@ function SignIn() {
             <h1 className="signin-title">Sign In</h1>
             {isLoggedIn ? (
                 <div>
-                    <p>You are logged in.</p>
+                    <p>Welcome, {name}!</p>
+                    <p>User ID: {userId}</p>
                     <button onClick={handleLogout} className="signin-button">Logout</button>
                 </div>
             ) : (
                 <form className="signin-form" onSubmit={handleSubmit}>
                     <input
-                        type="text"
+                        type="email"
                         className="signin-input"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                     <input
@@ -88,9 +72,9 @@ function SignIn() {
                     <button type="submit" className="signin-button">Submit</button>
                 </form>
             )}
-            {message && <p>{message}</p>}
+            {message && <p className="signin-message">{message}</p>}
         </div>
     );
-}
+};
 
 export default SignIn;

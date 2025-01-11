@@ -1,0 +1,141 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.centered {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}
+
+.header {
+    font-size: 32px;
+    color: #333;
+    text-decoration: underline;
+}
+
+.subHeader {
+    font-size: 24px;
+    color: #555;
+    text-decoration: underline;
+}
+
+.formGroup {
+    margin: 20px 0;
+}
+
+.label {
+    display: block;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.select, .textarea, .input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.textarea {
+    height: 100px;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dietMessage {
+    font-size: 16px;
+    color: #333;
+    white-space: pre-wrap;
+    text-align: left;
+}
+
+.dietPlan {
+    margin-top: 20px;
+}
+
+.day {
+    margin-bottom: 20px;
+}
+
+.dietTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.dietTable th, .dietTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.dietTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.dietTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.dietTable tr:hover {
+    background-color: #ddd;
+}
+
+.dietList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dietItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+    margin-bottom: 8px;
+    border-radius: 4px;
+}
+
+.dietItem span {
+    font-size: 16px;
+    color: #333;
+}
+
+.viewButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.viewButton:hover {
+    background-color: #45a049;
+}

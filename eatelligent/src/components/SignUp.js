@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './signup.css';
+import './SignUp.css';
 
 function SignUp() {
-    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -15,7 +15,7 @@ function SignUp() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password, email }),
+                body: JSON.stringify({ name, password, email }),
             });
             const data = await response.json();
             if (response.ok) {
@@ -31,15 +31,14 @@ function SignUp() {
 
     return (
         <div className="signup-container">
-            <h1>Sign Up</h1>
-            <p>Sign up form.</p>
+            <h1 className="signup-title">Sign Up</h1>
             <form className="signup-form" onSubmit={handleSubmit}>
                 <input
                     type="text"
                     className="signup-input"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     required
                 />
                 <input
@@ -60,7 +59,7 @@ function SignUp() {
                 />
                 <button type="submit" className="signup-button">Submit</button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className="signup-message">{message}</p>}
         </div>
     );
 }
