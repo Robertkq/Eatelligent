@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Diets.css';
 
 const Diets = () => {
@@ -139,11 +139,6 @@ const Diets = () => {
             return;
         }
 
-        if (!sex || !age || !height || !weight || !activityLevel || !dietGoal) {
-            setDietMessage('Please fill out all the required information above.');
-            return;
-        }
-
         setIsLoading(true); // Set loading state to true
 
         try {
@@ -163,7 +158,8 @@ const Diets = () => {
             const prompt = `Create a new diet plan for a healthy lifestyle. \
 Generate 7 days worth of calories and nutrients, with a target of ${targetCalories} calories per day. \
 Include the following preferences: ${userInfo.preferences}. Avoid the following allergies: ${userInfo.allergies}. \
-Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (food item), calories, and nutrients (e.g., protein, carbs, fats).`;
+Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (food item), calories, and nutrients (e.g., protein, carbs, fats).
+Do not generate anything extra besides the JSON requested.`;
 
             const jsonSchema = {
                 type: "object",
@@ -329,7 +325,7 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
 
     return (
         <div className="container">
-            <h1 className="infoHeader">Your Information</h1>
+            <h1 className="header">Your Information</h1>
             <div className="formGroup">
                 <label className="label">
                     Sex:
@@ -373,7 +369,31 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
             </div>
             <div className="formGroup">
                 <label className="label">
-                    Diet Goal:
+                    Select your diet type:
+                    <select value={dietType} onChange={(e) => setDietType(e.target.value)} className="select">
+                        <option value="">Select</option>
+                        <option value="Any">Any</option>
+                        <option value="Vegan">Vegan</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Pescatarian">Pescatarian</option>
+                        <option value="Keto">Keto</option>
+                        <option value="Paleo">Paleo</option>
+                        <option value="Mediterranean">Mediterranean</option>
+                        <option value="Gluten-Free">Gluten-Free</option>
+                        <option value="Dairy-Free">Dairy-Free</option>
+                        <option value="Low-Carb">Low-Carb</option>
+                        <option value="Low-Fat">Low-Fat</option>
+                        <option value="Whole30">Whole30</option>
+                        <option value="Intermittent Fasting">Intermittent Fasting</option>
+                        <option value="Flexitarian">Flexitarian</option>
+                        <option value="Raw Food">Raw Food</option>
+                        <option value="Zone Diet">Zone Diet</option>
+                    </select>
+                </label>
+            </div>
+            <div className="formGroup">
+                <label className="label">
+                    Select your diet goal:
                     <select value={dietGoal} onChange={(e) => setDietGoal(e.target.value)} className="select">
                         <option value="">Select</option>
                         <option value="Losing fat">Losing fat</option>
@@ -387,13 +407,13 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
             <div className="formGroup">
                 <label className="label">
                     Allergies:
-                    <textarea value={allergies} onChange={(e) => setAllergies(e.target.value)} className="textarea" placeholder="I'm allergic to peanuts and nuts" />
+                    <textarea value={allergies} onChange={(e) => setAllergies(e.target.value)} className="textarea" />
                 </label>
             </div>
             <div className="formGroup">
                 <label className="label">
                     Preferences:
-                    <textarea value={preferences} onChange={(e) => setPreferences(e.target.value)} className="textarea" placeholder="I really like bananas and strawberries, but no apples" />
+                    <textarea value={preferences} onChange={(e) => setPreferences(e.target.value)} className="textarea" />
                 </label>
             </div>
             <button onClick={handleSaveInformation} className="button">Save</button>

@@ -64,7 +64,7 @@ function Navigation() {
 function Home() {
   return (
     <div className="container">
-      <h2 className="header">Welcome to Eatelligent</h2>
+      <h2 className="infoHeader">Welcome to Eatelligent</h2>
     </div>
   );
 }
