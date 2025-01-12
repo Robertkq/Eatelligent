@@ -4,6 +4,7 @@ import Diets from './components/Diets';
 import About from './components/About';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
+import ViewDiet from './components/ViewDiet';
 import './App.css';
 
 function App() {
@@ -12,12 +13,12 @@ function App() {
       <EatelligentHeader />
       <main>
         <Routes>
-            {/* Use an element to render a default home page */}
             <Route path="/" element={<Home />} />
             <Route path="/diets" element={<Diets />} />
             <Route path="/about" element={<About />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/view-diet/:dietId" element={<ViewDiet />} />
           </Routes>
         </main>
     </Router>

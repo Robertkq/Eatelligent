@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Diets.css';
 
@@ -18,13 +19,13 @@ const Diets = () => {
     const [dietPlan, setDietPlan] = useState(null);
     const [dietName, setDietName] = useState('');
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user && user.id) {
             setIsLoggedIn(true);
-            // Fetch user diets from the database
             fetchUserDiets(user.id);
-            // Fetch user information from the database
             fetchUserInformation(user.id);
         }
     }, []);
@@ -67,7 +68,6 @@ const Diets = () => {
             return;
         }
 
-        // Save the user's information to the database
         try {
             await axios.post('http://localhost:5000/api/user/save', {
                 user_id: user.id,
@@ -89,7 +89,6 @@ const Diets = () => {
     };
 
     const calculateCalories = (sex, age, height, weight, activityLevel, dietGoal) => {
-        // Calculate BMR (Basal Metabolic Rate)
         let bmr;
         if (sex === 'M') {
             bmr = 10 * weight + 6.25 * height - 5 * age + 5;
@@ -97,7 +96,6 @@ const Diets = () => {
             bmr = 10 * weight + 6.25 * height - 5 * age - 161;
         }
 
-        // Calculate maintenance calories based on activity level
         let activityMultiplier;
         switch (activityLevel) {
             case 'Sedentary':
@@ -116,12 +114,11 @@ const Diets = () => {
                 activityMultiplier = 1.9;
                 break;
             default:
-                activityMultiplier = 1.55; // Default to moderately active
+                activityMultiplier = 1.55; 
         }
 
         const maintenanceCalories = bmr * activityMultiplier;
 
-        // Adjust calories based on diet goal
         let targetCalories;
         if (dietGoal === 'Losing fat') {
             targetCalories = maintenanceCalories - 500;
@@ -147,7 +144,6 @@ const Diets = () => {
             });
             const userInfo = response.data;
 
-            // Check if any required information is missing
             if (!userInfo.sex || !userInfo.age || !userInfo.height || !userInfo.weight || !userInfo.activity_level || !userInfo.diet_goal) {
                 setDietMessage('Please fill out all the required information.');
                 return;
@@ -290,13 +286,13 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
             setDietMessage('Please enter a name for the diet.');
             return;
         }
-    
+
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user || !user.id) {
             setDietMessage('User not logged in.');
             return;
         }
-    
+
         try {
             await axios.post('http://localhost:5000/api/user/saveDiet', {
                 user_id: user.id,
@@ -304,8 +300,8 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
                 diet_details: JSON.stringify(dietPlan)
             });
             setDietMessage('Diet saved successfully!');
-            setDietName(''); // Clear the diet name field
-            fetchUserDiets(user.id); // Refresh the list of user diets
+            setDietName(''); 
+            fetchUserDiets(user.id); 
         } catch (error) {
             console.error('Error saving diet:', error);
             setDietMessage('Failed to save diet.');
@@ -313,8 +309,7 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
     };
 
     const handleViewDiet = (dietId) => {
-        // Implement the logic to view the diet details
-        console.log(`View diet with ID: ${dietId}`);
+        navigate(`/view-diet/${dietId}`);
     };
 
     if (!isLoggedIn) {
@@ -429,7 +424,7 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
                 )}
             </ul>
             <button onClick={handleCreateNewDiet} className="button">Create New Diet</button>
-            {dietPlan && (
+            {dietPlan && dietPlan.days && (
                 <div className="dietPlan">
                     <h2 className="subHeader">Diet Details</h2>
                     {dietPlan.days.map((day, dayIndex) => (

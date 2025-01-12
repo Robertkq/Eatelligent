@@ -14,8 +14,8 @@ const SignIn = () => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             setIsLoggedIn(true);
-            setUserId(user.id); // Ensure the correct field name is used
-            setName(user.name); // Ensure the correct field name is used
+            setUserId(user.id);
+            setName(user.name); 
         }
     }, []);
 
@@ -26,8 +26,8 @@ const SignIn = () => {
             const user = response.data;
             localStorage.setItem('user', JSON.stringify(user));
             setIsLoggedIn(true);
-            setUserId(user.id); // Ensure the correct field name is used
-            setName(user.name); // Ensure the correct field name is used
+            setUserId(user.id); 
+            setName(user.name);
             setMessage('Logged in successfully');
         } catch (error) {
             setMessage('Failed to log in');

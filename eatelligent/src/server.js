@@ -233,6 +233,21 @@ app.post('/api/user/saveDiet', async (req, res) => {
     }
 });
 
+// Fetch a specific diet endpoint
+app.get('/api/user/diet/:dietId', async (req, res) => {
+    const { dietId } = req.params;
+    try {
+        const diet = await Diet.findByPk(dietId);
+        if (!diet) {
+            return res.status(404).json({ message: 'Diet not found' });
+        }
+        res.status(200).json(diet);
+    } catch (error) {
+        console.error('Error fetching diet:', error);
+        res.status(500).json({ message: 'Failed to fetch diet', error });
+    }
+});
+
 // Sync database and start server
 sequelize.sync().then(() => {
     app.listen(port, () => {
