@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Diets.css';
 
 const Diets = () => {
@@ -18,6 +18,7 @@ const Diets = () => {
     const [userDiets, setUserDiets] = useState([]);
     const [dietPlan, setDietPlan] = useState(null);
     const [dietName, setDietName] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
 
     const navigate = useNavigate();
 
@@ -138,6 +139,13 @@ const Diets = () => {
             return;
         }
 
+        if (!sex || !age || !height || !weight || !activityLevel || !dietGoal) {
+            setDietMessage('Please fill out all the required information above.');
+            return;
+        }
+
+        setIsLoading(true); // Set loading state to true
+
         try {
             const response = await axios.get('http://localhost:5000/api/user/info', {
                 params: { user_id: user.id }
@@ -145,7 +153,8 @@ const Diets = () => {
             const userInfo = response.data;
 
             if (!userInfo.sex || !userInfo.age || !userInfo.height || !userInfo.weight || !userInfo.activity_level || !userInfo.diet_goal) {
-                setDietMessage('Please fill out all the required information.');
+                setDietMessage('Please fill out all the required information above.');
+                setIsLoading(false); // Set loading state to false
                 return;
             }
 
@@ -278,6 +287,8 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
                 console.error('Error response headers:', error.response.headers);
             }
             setDietMessage('Failed to create a new diet.');
+        } finally {
+            setIsLoading(false); // Set loading state to false
         }
     };
 
@@ -318,7 +329,7 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
 
     return (
         <div className="container">
-            <h1 className="header">Your Information</h1>
+            <h1 className="infoHeader">Your Information</h1>
             <div className="formGroup">
                 <label className="label">
                     Sex:
@@ -362,31 +373,7 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
             </div>
             <div className="formGroup">
                 <label className="label">
-                    Select your diet type:
-                    <select value={dietType} onChange={(e) => setDietType(e.target.value)} className="select">
-                        <option value="">Select</option>
-                        <option value="Any">Any</option>
-                        <option value="Vegan">Vegan</option>
-                        <option value="Vegetarian">Vegetarian</option>
-                        <option value="Pescatarian">Pescatarian</option>
-                        <option value="Keto">Keto</option>
-                        <option value="Paleo">Paleo</option>
-                        <option value="Mediterranean">Mediterranean</option>
-                        <option value="Gluten-Free">Gluten-Free</option>
-                        <option value="Dairy-Free">Dairy-Free</option>
-                        <option value="Low-Carb">Low-Carb</option>
-                        <option value="Low-Fat">Low-Fat</option>
-                        <option value="Whole30">Whole30</option>
-                        <option value="Intermittent Fasting">Intermittent Fasting</option>
-                        <option value="Flexitarian">Flexitarian</option>
-                        <option value="Raw Food">Raw Food</option>
-                        <option value="Zone Diet">Zone Diet</option>
-                    </select>
-                </label>
-            </div>
-            <div className="formGroup">
-                <label className="label">
-                    Select your diet goal:
+                    Diet Goal:
                     <select value={dietGoal} onChange={(e) => setDietGoal(e.target.value)} className="select">
                         <option value="">Select</option>
                         <option value="Losing fat">Losing fat</option>
@@ -400,13 +387,13 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
             <div className="formGroup">
                 <label className="label">
                     Allergies:
-                    <textarea value={allergies} onChange={(e) => setAllergies(e.target.value)} className="textarea" />
+                    <textarea value={allergies} onChange={(e) => setAllergies(e.target.value)} className="textarea" placeholder="I'm allergic to peanuts and nuts" />
                 </label>
             </div>
             <div className="formGroup">
                 <label className="label">
                     Preferences:
-                    <textarea value={preferences} onChange={(e) => setPreferences(e.target.value)} className="textarea" />
+                    <textarea value={preferences} onChange={(e) => setPreferences(e.target.value)} className="textarea" placeholder="I really like bananas and strawberries, but no apples" />
                 </label>
             </div>
             <button onClick={handleSaveInformation} className="button">Save</button>
@@ -424,6 +411,7 @@ Each meal should have a type_meal (Breakfast, Lunch, Dinner, Snack), a meal (foo
                 )}
             </ul>
             <button onClick={handleCreateNewDiet} className="button">Create New Diet</button>
+            {isLoading && <p className="dietMessage">Generating new diet...</p>} {/* Display loading message */}
             {dietPlan && dietPlan.days && (
                 <div className="dietPlan">
                     <h2 className="subHeader">Diet Details</h2>

@@ -1,47 +1,143 @@
-/* App.css */
-.App {
-  text-align: center;
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center text inside the container */
 }
 
-.App-header {
-  background-color: #282c34;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: darkgreen;
+.centered {
+    text-align: center;
+    font-size: 18px;
+    color: #343a40;
 }
 
-.centered-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.header {
+    font-size: 32px;
+    color: #007BFF;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    text-align: center; /* Center the header text */
+    background-image: url('./assets/img/title_background.jpg'); /* Add your image path here */
+    background-size: 10%; /* Zoom out the background image to 10% */
+    background-position: center; /* Center the background image */
+    background-repeat: repeat; /* Repeat the image to fill gaps */
+    padding: 20px; /* Add padding to the header */
+    border-radius: 8px; /* Add rounded corners */
+    position: relative; /* Ensure the text background is positioned correctly */
 }
 
+.header span {
+    background-color: rgba(0, 0, 0, 1); /* Semi-transparent black background */
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: #fff; /* White text color for better readability */
+}
+
+.infoHeader {
+    font-size: 32px;
+    color: #007BFF;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    text-align: center; /* Center the header text */
+}
+
+.subHeader {
+    font-size: 24px;
+    color: #6C757D;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    text-align: center; /* Center the subheader text */
+}
+
+/* Navbar Styles */
 .navbar {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  gap: 20px;
-  align-items: center;
+    display: flex;
+    justify-content: center; /* Center the navbar items */
+    align-items: center;
+    background-color: #007BFF;
+    padding: 10px 20px;
+    color: #fff;
+    list-style-type: none;
+    margin: 0;
+    position: relative;
+    height: 60px; /* Set a fixed height for the navbar */
+    min-height: 60px; /* Set a minimum height for the navbar */
+    transition: height 0.3s ease; /* Smooth transition for height */
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: center; /* Center the navbar items */
+    padding: 0;
+    margin: 0;
 }
 
 .navbar li {
-  display: inline;
+    margin: 0 15px;
+    list-style: none; /* Remove list markers */
 }
 
 .navbar a,
-
 .navbar button {
-  color: darkgreen;
-  background: none;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
+    color: #fff;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 .navbar button:hover,
 .navbar a:hover {
-  text-decoration: underline;
+    background-color: #0056b3;
+    text-decoration: none;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center vertically */
+    margin: 3px 5px; /* Add margins */
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto; /* Allow height to adjust automatically */
+        min-height: 60px; /* Ensure minimum height to show the icon */
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        display: none;
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar ul.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
 }

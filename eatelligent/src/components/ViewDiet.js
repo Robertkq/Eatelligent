@@ -49,7 +49,7 @@ const ViewDiet = () => {
     return (
         <div className="container">
             <button onClick={() => navigate('/diets')} className="button">Go Back</button>
-            <h1 className="header">Diet Details</h1>
+            <h1 className="infoHeader">Diet Details</h1>
             {diet.diet_details.days.map((day, dayIndex) => (
                 <div key={dayIndex} className="day">
                     <h3>Day {day.day}</h3>
